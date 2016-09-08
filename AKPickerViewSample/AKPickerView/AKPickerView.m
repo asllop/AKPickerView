@@ -288,29 +288,55 @@
 {
 	AKCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AKCollectionViewCell class])
 																		   forIndexPath:indexPath];
-
-	if ([self.dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
-		NSString *title = [self.dataSource pickerView:self titleForItem:indexPath.item];
-		cell.label.text = title;
-		cell.label.textColor = self.textColor;
-		cell.label.highlightedTextColor = self.highlightedTextColor;
-		cell.label.font = self.font;
-		cell.font = self.font;
-		cell.highlightedFont = self.highlightedFont;
-		cell.label.bounds = (CGRect){CGPointZero, [self sizeForString:title]};
-		if ([self.delegate respondsToSelector:@selector(pickerView:marginForItem:)]) {
-			CGSize margin = [self.delegate pickerView:self marginForItem:indexPath.item];
-			cell.label.frame = CGRectInset(cell.label.frame, -margin.width, -margin.height);
-		}
-		if ([self.delegate respondsToSelector:@selector(pickerView:configureLabel:forItem:)]) {
-			[self.delegate pickerView:self configureLabel:cell.label forItem:indexPath.item];
-		}
-	} else if ([self.dataSource respondsToSelector:@selector(pickerView:imageForItem:)]) {
-		cell.imageView.image = [self.dataSource pickerView:self imageForItem:indexPath.item];
-	}
+    
+    if ([self.dataSource respondsToSelector:@selector(pickerView:typeForItem:)]) {
+        AKPickerTypeSelector typeSelector = [self.dataSource pickerView:self typeForItem:indexPath.item];
+        
+        if (typeSelector == AKPickerTypeSelectorTitle) {
+            if ([self.dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
+                [self callTitleDelegate:cell forItem:indexPath.item];
+            }
+        }
+        else {
+            if ([self.dataSource respondsToSelector:@selector(pickerView:imageForItem:)]) {
+                [self callImageDelegate:cell forItem:indexPath.item];
+            }
+        }
+    }
+    else {
+        if ([self.dataSource respondsToSelector:@selector(pickerView:titleForItem:)]) {
+            [self callTitleDelegate:cell forItem:indexPath.item];
+        } else if ([self.dataSource respondsToSelector:@selector(pickerView:imageForItem:)]) {
+            [self callImageDelegate:cell forItem:indexPath.item];
+        }
+    }
+    
 	cell.selected = (indexPath.item == self.selectedItem);
 
 	return cell;
+}
+
+- (void)callTitleDelegate:(AKCollectionViewCell *)cell forItem:(NSInteger)item {
+    
+    NSString *title = [self.dataSource pickerView:self titleForItem:item];
+    cell.label.text = title;
+    cell.label.textColor = self.textColor;
+    cell.label.highlightedTextColor = self.highlightedTextColor;
+    cell.label.font = self.font;
+    cell.font = self.font;
+    cell.highlightedFont = self.highlightedFont;
+    cell.label.bounds = (CGRect){CGPointZero, [self sizeForString:title]};
+    if ([self.delegate respondsToSelector:@selector(pickerView:marginForItem:)]) {
+        CGSize margin = [self.delegate pickerView:self marginForItem:item];
+        cell.label.frame = CGRectInset(cell.label.frame, -margin.width, -margin.height);
+    }
+    if ([self.delegate respondsToSelector:@selector(pickerView:configureLabel:forItem:)]) {
+        [self.delegate pickerView:self configureLabel:cell.label forItem:item];
+    }
+}
+
+- (void)callImageDelegate:(AKCollectionViewCell *)cell forItem:(NSInteger)item {
+    cell.imageView.image = [self.dataSource pickerView:self imageForItem:item];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
