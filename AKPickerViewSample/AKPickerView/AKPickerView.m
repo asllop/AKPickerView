@@ -336,7 +336,7 @@
 }
 
 - (void)callImageDelegate:(AKCollectionViewCell *)cell forItem:(NSInteger)item {
-    cell.imageView.image = [self.dataSource pickerView:self imageForItem:item];
+    cell.imageView.image = [[self.dataSource pickerView:self imageForItem:item] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -475,6 +475,17 @@
 	[self.label.layer addAnimation:transition forKey:nil];
 
 	self.label.font = self.selected ? self.highlightedFont : self.font;
+    
+    if (self.imageView.image) {
+        if (selected) {
+            self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+            self.imageView.tintColor = nil;
+        }
+        else {
+            self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            self.imageView.tintColor = [UIColor lightGrayColor];
+        }
+    }
 }
 
 @end
