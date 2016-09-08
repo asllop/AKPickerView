@@ -442,7 +442,7 @@
 
 	self.imageView = [[UIImageView alloc] initWithFrame:self.contentView.bounds];
 	self.imageView.backgroundColor = [UIColor clearColor];
-	self.imageView.contentMode = UIViewContentModeCenter;
+	self.imageView.contentMode = UIViewContentModeScaleAspectFit;
 	self.imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.contentView addSubview:self.imageView];
 }
