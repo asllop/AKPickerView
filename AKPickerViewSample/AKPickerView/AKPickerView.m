@@ -211,6 +211,10 @@
 
 - (void)scrollToItem:(NSUInteger)item animated:(BOOL)animated
 {
+    if (item >= [self.collectionView numberOfItemsInSection:0]) {
+        return;
+    }
+    
 	switch (self.pickerViewStyle) {
 		case AKPickerViewStyleFlat: {
 			[self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0]
