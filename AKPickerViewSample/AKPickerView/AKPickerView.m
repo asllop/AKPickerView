@@ -211,7 +211,10 @@
 
 - (void)scrollToItem:(NSUInteger)item animated:(BOOL)animated
 {
-    if (item >= [self.collectionView numberOfItemsInSection:0]) {
+    if ([self.collectionView numberOfSections] == 0) {
+        return;
+    }
+    else if (item >= [self.collectionView numberOfItemsInSection:0]) {
         return;
     }
     
