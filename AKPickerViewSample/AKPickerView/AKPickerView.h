@@ -55,5 +55,6 @@ typedef NS_ENUM(BOOL, AKPickerTypeSelector) {
 - (void)scrollToItem:(NSUInteger)item animated:(BOOL)animated;
 - (void)selectItem:(NSUInteger)item animated:(BOOL)animated;
 - (void)selectItem:(NSUInteger)item animated:(BOOL)animated notifySelection:(BOOL)notifySelection;
+- (void)didEndScrolling;
 
 @end
