@@ -50,6 +50,7 @@ typedef NS_ENUM(BOOL, AKPickerTypeSelector) {
 @property (nonatomic, assign) AKPickerViewStyle pickerViewStyle;
 @property (nonatomic, assign, readonly) NSUInteger selectedItem;
 @property (nonatomic, assign, readonly) CGPoint contentOffset;
+@property (nonatomic, strong) UICollectionView *collectionView;
 
 - (void)reloadData;
 - (void)scrollToItem:(NSUInteger)item animated:(BOOL)animated;
