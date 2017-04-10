@@ -242,6 +242,23 @@
 - (void)selectItem:(NSUInteger)item animated:(BOOL)animated notifySelection:(BOOL)notifySelection
 {
     [self fuckingDeselectAll];
+    
+    // If item not selectable, go back
+    
+    if ([self.delegate respondsToSelector:@selector(pickerView:selectableItem:)]) {
+        
+        if (![self.delegate pickerView:self selectableItem:item]) {
+            
+            [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:self.selectedItem inSection:0]
+                                              animated:animated
+                                        scrollPosition:UICollectionViewScrollPositionNone];
+            
+            [self scrollToItem:self.selectedItem animated:animated];
+            
+            return;
+        }
+    }
+    
     [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0]
                                       animated:animated
                                 scrollPosition:UICollectionViewScrollPositionNone];

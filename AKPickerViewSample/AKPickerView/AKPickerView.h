@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, AKPickerViewStyle) {
-	AKPickerViewStyle3D = 1,
-	AKPickerViewStyleFlat
+    AKPickerViewStyle3D = 1,
+    AKPickerViewStyleFlat
 };
 
 typedef NS_ENUM(BOOL, AKPickerTypeSelector) {
@@ -27,6 +27,7 @@ typedef NS_ENUM(BOOL, AKPickerTypeSelector) {
 - (NSString *)pickerView:(AKPickerView *)pickerView titleForItem:(NSInteger)item;
 - (UIImage *)pickerView:(AKPickerView *)pickerView imageForItem:(NSInteger)item;
 - (AKPickerTypeSelector)pickerView:(AKPickerView *)pickerView typeForItem:(NSInteger)item;
+
 @end
 
 @protocol AKPickerViewDelegate <UIScrollViewDelegate>
@@ -34,6 +35,7 @@ typedef NS_ENUM(BOOL, AKPickerTypeSelector) {
 - (void)pickerView:(AKPickerView *)pickerView didSelectItem:(NSInteger)item;
 - (CGSize)pickerView:(AKPickerView *)pickerView marginForItem:(NSInteger)item;
 - (void)pickerView:(AKPickerView *)pickerView configureLabel:(UILabel * const)label forItem:(NSInteger)item;
+- (BOOL)pickerView:(AKPickerView *)pickerView selectableItem:(NSInteger)item;
 @end
 
 @interface AKPickerView : UIView
