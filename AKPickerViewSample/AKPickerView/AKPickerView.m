@@ -292,7 +292,9 @@
         }
         case AKPickerViewStyle3D: {
             if ([self.dataSource numberOfItemsInPickerView:self]) {
+                NSUInteger cellIndex = 0;
                 for (NSUInteger i = 0; i < [self collectionView:self.collectionView numberOfItemsInSection:0]; i++) {
+                    cellIndex = i;
                     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
                     AKCollectionViewCell *cell = (AKCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
                     if ([self offsetForItem:i] + cell.bounds.size.width / 2 > self.collectionView.contentOffset.x) {
@@ -300,6 +302,8 @@
                         break;
                     }
                 }
+                // We haven't found a valid cell, so move to the last one
+                [self selectItem:cellIndex animated:YES];
             }
             break;
         }
