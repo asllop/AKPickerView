@@ -273,6 +273,10 @@
 }
 
 - (void)fuckingDeselectAll {
+    
+    // Asking for number of sections to avoid a crash
+    if ([self.collectionView numberOfSections] == 0) return;
+        
     NSInteger items = [self.collectionView numberOfItemsInSection:0];
     
     for (NSInteger i = 0 ; i < items ; i++) {
