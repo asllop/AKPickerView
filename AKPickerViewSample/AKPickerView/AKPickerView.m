@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIFont *highlightedFont;
 @property (nonatomic, strong) UIColor *highlightedTextColor;
+@property (nonatomic, assign) BOOL imagesNotSelectable;
 @end
 
 @interface AKCollectionViewLayout : UICollectionViewFlowLayout
@@ -380,6 +381,7 @@
 }
 
 - (void)callImageDelegate:(AKCollectionViewCell *)cell forItem:(NSInteger)item {
+    cell.imagesNotSelectable = self.imagesNotSelectable;
     cell.imageView.image = [[self.dataSource pickerView:self imageForItem:item] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
 }
 
@@ -521,13 +523,19 @@
     self.label.font = self.selected ? self.highlightedFont : self.font;
     
     if (self.imageView.image) {
-        if (selected) {
+        if (self.imagesNotSelectable) {
             self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             self.imageView.tintColor = nil;
         }
         else {
-            self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-            self.imageView.tintColor = [UIColor lightGrayColor];
+            if (selected) {
+                self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+                self.imageView.tintColor = nil;
+            }
+            else {
+                self.imageView.image = [self.imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                self.imageView.tintColor = [UIColor lightGrayColor];
+            }
         }
     }
     else {
