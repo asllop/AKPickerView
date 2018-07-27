@@ -37,7 +37,7 @@
 @interface AKPickerView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AKCollectionViewLayoutDelegate>
 @property (nonatomic, assign) NSUInteger selectedItem;
 @property (nonatomic, strong) AKPickerViewDelegateIntercepter *intercepter;
-@property(nonatomic, strong) UISelectionFeedbackGenerator *feedbackGenerator;
+@property (nonatomic, strong) UISelectionFeedbackGenerator *feedbackGenerator;
 - (CGFloat)offsetForItem:(NSUInteger)item;
 - (void)didEndScrolling;
 - (CGSize)sizeForString:(NSString *)string;
