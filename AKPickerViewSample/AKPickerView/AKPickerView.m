@@ -37,6 +37,7 @@
 @interface AKPickerView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, AKCollectionViewLayoutDelegate>
 @property (nonatomic, assign) NSUInteger selectedItem;
 @property (nonatomic, strong) AKPickerViewDelegateIntercepter *intercepter;
+@property (nonatomic, strong) UISelectionFeedbackGenerator *feedbackGenerator;
 - (CGFloat)offsetForItem:(NSUInteger)item;
 - (void)didEndScrolling;
 - (CGSize)sizeForString:(NSString *)string;
@@ -69,6 +70,7 @@
     self.intercepter.pickerView = self;
     self.intercepter.delegate = self.delegate;
     self.collectionView.delegate = self.intercepter;
+    self.feedbackGenerator = [[UISelectionFeedbackGenerator alloc] init];
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -288,6 +290,7 @@
 
 - (void)didEndScrolling
 {
+    [self.feedbackGenerator selectionChanged];
     switch (self.pickerViewStyle) {
         case AKPickerViewStyleFlat: {
             CGPoint center = [self convertPoint:self.collectionView.center toView:self.collectionView];
